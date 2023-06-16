@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_PRN211", "Project_PRN211\Project_PRN211.csproj", "{127F82B5-EFE8-433B-80BD-F2FF23C79D00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_PRN_Razor", "Project_PRN_Razor\Project_PRN_Razor.csproj", "{10DC97C4-7C6E-4C75-B486-CD524B0E2E89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2B29A01D-B1B2-4A41-99BE-498A19B29C47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{127F82B5-EFE8-433B-80BD-F2FF23C79D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{127F82B5-EFE8-433B-80BD-F2FF23C79D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{127F82B5-EFE8-433B-80BD-F2FF23C79D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{127F82B5-EFE8-433B-80BD-F2FF23C79D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10DC97C4-7C6E-4C75-B486-CD524B0E2E89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DC97C4-7C6E-4C75-B486-CD524B0E2E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DC97C4-7C6E-4C75-B486-CD524B0E2E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DC97C4-7C6E-4C75-B486-CD524B0E2E89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B29A01D-B1B2-4A41-99BE-498A19B29C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B29A01D-B1B2-4A41-99BE-498A19B29C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B29A01D-B1B2-4A41-99BE-498A19B29C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B29A01D-B1B2-4A41-99BE-498A19B29C47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
