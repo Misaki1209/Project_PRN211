@@ -2,7 +2,7 @@ using Domain.Models;
 
 namespace Domain.IRepositories;
 
-public interface IStudentRepository
+public interface IStudentDetailRepository
 {
     public IEnumerable<StudentDetail> GetAllStudentDetails();
     public StudentDetail? GetStudentDetailById(int id);

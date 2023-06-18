@@ -1,0 +1,30 @@
+@page "{semesterId:int}"
+@model Project_PRN_Razor.Pages.Admin.SemesterPages.EditSemester
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Semester.SemesterId">Semester Id</label>
+        <input asp-for="Semester.SemesterId" class="form-control" value="@Model.Semester.SemesterId" readonly>
+    </div>
+    <div class="form-group">
+        <label asp-for="Semester.SemesterName">Semester name</label>
+        <input asp-for="Semester.SemesterName" class="form-control" value="@Model.Semester.SemesterName" placeholder="Spring/Summer/Fall + year">
+    </div>
+    <div class="form-group">
+        <label asp-for="Semester.StartDate">Start Date</label>
+        <input asp-for="Semester.StartDate" type="date" value="@Model.Semester.StartDate.ToString("yyyy-MM-dd")" class="form-control" placeholder="Start Date">
+    </div>
+    <div class="form-group">
+        <label asp-for="Semester.EndDate">End Date</label>
+        <input asp-for="Semester.EndDate" type="date" value="@Model.Semester.EndDate.ToString("yyyy-MM-dd")" class="form-control" placeholder="End Date">
+    </div>
+    <div class="btn-group" style="margin-top: 50px; ">
+        <button type="submit" class="btn btn-success" style="width: 150px; margin-right: 10px;" asp-page-handler="Update"> Update</button>
+        <button type="submit" class="btn btn-danger" style="width: 150px" asp-page-handler="Delete"> Delete</button>
+    </div>
+    
+</form>

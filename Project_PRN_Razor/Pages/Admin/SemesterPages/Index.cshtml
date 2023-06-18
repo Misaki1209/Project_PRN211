@@ -1,0 +1,52 @@
+@page
+@using Domain.Constants
+@model Project_PRN_Razor.Pages.Admin.SemesterPages.Index
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Semester List</h2>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Semester Id</th>
+        <th scope="col">Semester Name</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var semester in Model.Semesters)
+    {
+        <tr>
+            <th scope="row">@semester.SemesterId</th>
+            <td>@semester.SemesterName</td>
+            <td>@semester.StartDate.ToString("dd/MM/yyyy")</td>
+            <td>@semester.EndDate.ToString("dd/MM/yyyy")</td>
+            @if(semester.Deleted.Equals(Common.Status.Active))
+            {
+                <td class="text-success">@semester.Deleted</td>
+            }
+            else
+            {
+                <td class="text-danger">@semester.Deleted</td>
+            }
+
+            <td>
+                <a href="/Admin/SemesterPages/EditSemester/@semester.SemesterId" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Domain.Repositories;
 
-public class StudentDetailRepository : IStudentRepository
+public class StudentDetailRepository : IStudentDetailRepository
 {
     private ProjectPrn221Context _context;
 

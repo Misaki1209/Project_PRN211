@@ -1,3 +1,4 @@
+using AutoMapper;
 using Domain.IRepositories;
 using Domain.Models;
 
@@ -6,10 +7,12 @@ namespace Domain.Repositories;
 public class SemesterRepository : ISemesterRepository
 {
     private ProjectPrn221Context _context;
+    private IMapper _mapper;
 
-    public SemesterRepository(ProjectPrn221Context context)
+    public SemesterRepository(ProjectPrn221Context context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     public IEnumerable<Semester> GetAllSemester()
     {
