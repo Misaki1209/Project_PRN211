@@ -1,0 +1,30 @@
+@page
+@model Project_PRN_Razor.Pages.Admin.MarkPages.CreateMark
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Mark.MarkName">Mark name</label>
+        <input asp-for="Mark.MarkName" class="form-control" placeholder="Mark name">
+    </div>
+    <div class="form-group">
+        <label asp-for="Mark.Coefficient">Coefficient</label>
+        <input asp-for="Mark.Coefficient" class="form-control" placeholder="Coefficient">
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Mark.Resit">Resit id</label>
+        <select class="form-select" aria-label="Default select example" asp-for="Mark.Resit">
+            <option value="0" selected>None</option>
+            @foreach (var mark in Model.Marks)
+            {
+                <option value="@mark.MarkId">@mark.MarkId - @mark.MarkName</option>
+            }
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" style="width: 150px; margin-top:30px;"> Create</button>
+</form>

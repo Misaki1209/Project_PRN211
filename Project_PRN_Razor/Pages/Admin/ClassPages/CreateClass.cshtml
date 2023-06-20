@@ -1,0 +1,16 @@
+@page
+@model Project_PRN_Razor.Pages.Admin.ClassPages.CreateClass
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="TheClass.ClassName">Class name</label>
+        <input asp-for="TheClass.ClassName"  class="form-control" placeholder="Major code + class number">
+    </div>
+    
+
+    <button type="submit" class="btn btn-primary" style="width: 150px; margin-top:30px;"> Create</button>
+</form>

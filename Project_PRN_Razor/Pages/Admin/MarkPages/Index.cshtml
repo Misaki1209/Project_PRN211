@@ -1,0 +1,58 @@
+@page
+@using Domain.Constants
+@model Project_PRN_Razor.Pages.Admin.MarkPages.Index
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Mark List</h2>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Mark Id</th>
+        <th scope="col">Mark Name</th>
+        <th scope="col">Mark Coefficient</th>
+        <th scope="col">Resit Id</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var mark in Model.Marks)
+    {
+        <tr>
+            <th scope="row">@mark.MarkId</th>
+            <td>@mark.MarkName</td>
+            <td>@mark.Coefficient</td>
+            <td>@mark.Resit</td>
+            @if(mark.Deleted.Equals(Common.Status.Active))
+            {
+                <td class="text-success">@mark.Deleted</td>
+            }
+            else
+            {
+                <td class="text-danger">@mark.Deleted</td>
+            }
+
+            <td>
+                <a href="/Admin/MarkPages/EditMark/@mark.MarkId" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div  style="margin-top: 30px;">
+    <a href="/Admin/MarkPages/CreateMark" class="btn btn-primary">Create new mark</a>
+</div>
+
+

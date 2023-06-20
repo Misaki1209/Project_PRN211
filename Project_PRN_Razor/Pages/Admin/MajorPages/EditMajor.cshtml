@@ -1,0 +1,22 @@
+@page "{majorId:int}"
+@model Project_PRN_Razor.Pages.Admin.MajorPages.EditMajor
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Major.MajorId">Class Id</label>
+        <input asp-for="Major.MajorId" class="form-control" value="@Model.Major.MajorId" readonly>
+    </div>
+    <div class="form-group">
+        <label asp-for="Major.MajorName">Class name</label>
+        <input asp-for="Major.MajorName" class="form-control" value="@Model.Major.MajorName" placeholder="major name">
+    </div>
+    <div class="btn-group" style="margin-top: 50px; ">
+        <button type="submit" class="btn btn-success" style="width: 150px; margin-right: 10px;" asp-page-handler="Update"> Update</button>
+        <button type="submit" class="btn btn-danger" style="width: 150px" asp-page-handler="Delete"> Delete</button>
+    </div>
+    
+</form>

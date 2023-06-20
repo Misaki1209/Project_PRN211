@@ -1,0 +1,52 @@
+@page
+@using Domain.Constants
+@model Project_PRN_Razor.Pages.Admin.ClassPages.Index
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Class List</h2>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Class Id</th>
+        <th scope="col">Class Name</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var classs in Model.Classes)
+    {
+        <tr>
+            <th scope="row">@classs.ClassId</th>
+            <td>@classs.ClassName</td>
+            @if(classs.Deleted.Equals(Common.Status.Active))
+            {
+                <td class="text-success">@classs.Deleted</td>
+            }
+            else
+            {
+                <td class="text-danger">@classs.Deleted</td>
+            }
+
+            <td>
+                <a href="/Admin/ClassPages/EditClass/@classs.ClassId" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div style="margin-top: 30px;">
+    <a href="/Admin/ClassPages/CreateClass" class="btn btn-primary">Create new Class</a>
+</div>

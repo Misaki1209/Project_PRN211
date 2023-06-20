@@ -74,6 +74,7 @@ public class MarkRepository : IMarkRepository
 
         updateObj.Coefficient = mark.Coefficient;
         updateObj.MarkName = mark.MarkName;
+        updateObj.Resit = mark.Resit;
         _context.Marks.Update(updateObj);
         _context.SaveChanges();
     }

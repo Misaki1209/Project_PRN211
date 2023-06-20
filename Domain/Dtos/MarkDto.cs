@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+namespace Domain.Dtos;
 
-namespace Domain.Models;
-
-public partial class Mark
+public class MarkDto
 {
     public int MarkId { get; set; }
 
@@ -12,5 +9,5 @@ public partial class Mark
     public double Coefficient { get; set; }
     public int? Resit { get; set; }
 
-    public bool Deleted { get; set; }
+    public string Deleted { get; set; }
 }

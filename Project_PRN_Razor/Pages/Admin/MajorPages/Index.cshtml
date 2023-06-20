@@ -1,0 +1,52 @@
+@page
+@using Domain.Constants
+@model Project_PRN_Razor.Pages.Admin.MajorPages.Index
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Major List</h2>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Major Id</th>
+        <th scope="col">Major Name</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var major in Model.Majors)
+    {
+        <tr>
+            <th scope="row">@major.MajorId</th>
+            <td>@major.MajorName</td>
+            @if(major.Deleted.Equals(Common.Status.Active))
+            {
+                <td class="text-success">@major.Deleted</td>
+            }
+            else
+            {
+                <td class="text-danger">@major.Deleted</td>
+            }
+
+            <td>
+                <a href="/Admin/MajorPages/EditMajor/@major.MajorId" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div style="margin-top: 30px;">
+    <a href="/Admin/MajorPages/CreateMajor" class="btn btn-primary">Create new Major</a>
+</div>

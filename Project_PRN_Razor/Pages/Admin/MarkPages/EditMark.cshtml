@@ -1,0 +1,51 @@
+@page "{markId:int}"
+@model Project_PRN_Razor.Pages.Admin.MarkPages.EditMark
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Mark.MarkId">Mark Id</label>
+        <input asp-for="Mark.MarkId" class="form-control" value="@Model.Mark.MarkId" readonly>
+    </div>
+    <div class="form-group">
+        <label asp-for="Mark.MarkName">Mark name</label>
+        <input asp-for="Mark.MarkName" class="form-control" value="@Model.Mark.MarkName" placeholder="mark name">
+    </div>
+    <div class="form-group">
+        <label asp-for="Mark.Coefficient">Coefficient</label>
+        <input asp-for="Mark.Coefficient" class="form-control" value="@Model.Mark.Coefficient" placeholder="coefficient">
+    </div>
+    <div class="form-group">
+        <label asp-for="Mark.Resit">Resit id</label>
+        <select class="form-select" aria-label="Default select example" asp-for="Mark.Resit">
+            @if (Model.Mark.Resit == null)
+            {
+                <option value="0" selected>None</option>
+            }
+            else
+            {
+                <option value="0">None</option>
+            }
+            @foreach (var mark in Model.Marks)
+            {
+                if (Model.Mark.Resit == mark.MarkId)
+                {
+                    <option value="@mark.MarkId" selected>@mark.MarkId - @mark.MarkName</option>
+                }
+                else
+                {
+                    <option value="@mark.MarkId">@mark.MarkId - @mark.MarkName</option>
+                }
+                
+            }
+        </select>
+    </div>
+    <div class="btn-group" style="margin-top: 50px; ">
+        <button type="submit" class="btn btn-success" style="width: 150px; margin-right: 10px;" asp-page-handler="Update"> Update</button>
+        <button type="submit" class="btn btn-danger" style="width: 150px" asp-page-handler="Delete"> Delete</button>
+    </div>
+
+</form>
