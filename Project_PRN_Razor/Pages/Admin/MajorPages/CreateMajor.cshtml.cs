@@ -1,6 +1,8 @@
 using AutoMapper;
-using Domain.IRepositories;
+using Domain.Constants;
+using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,7 +12,7 @@ public class CreateMajor : PageModel
 {
     private IMajorRepository _majorRepository;
     private IMapper _mapper;
-    public Major Major { get; set; }
+    public MajorDto Major { get; set; }
 
     public CreateMajor(IMajorRepository majolrRepository, IMapper mapper)
     {
@@ -22,10 +24,10 @@ public class CreateMajor : PageModel
         
     }
 
-    public IActionResult OnPost(Major major)
+    public IActionResult OnPost(MajorDto major)
     {
         major.MajorId = _majorRepository.GetNextId();
-        major.Deleted = false;
+        major.Deleted = Common.Status.Active;
         _majorRepository.AddMajor(major);
         return RedirectToPage("Index");
     }

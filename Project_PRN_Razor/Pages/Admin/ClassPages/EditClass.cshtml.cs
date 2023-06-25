@@ -1,6 +1,7 @@
 using AutoMapper;
-using Domain.IRepositories;
+using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,7 +11,7 @@ public class EditClass : PageModel
 {
     private IClassRepository _classRepository;
     private IMapper _mapper;
-    public Class? TheClass { get; set; }
+    public ClassDto? TheClass { get; set; }
 
     public EditClass(IClassRepository classRepository, IMapper mapper)
     {
@@ -22,7 +23,7 @@ public class EditClass : PageModel
         TheClass = _classRepository.GetClassById(classId);
         return;
     }
-    public IActionResult OnPostUpdate(Class theClass)
+    public IActionResult OnPostUpdate(ClassDto theClass)
     {
         _classRepository.UpdateClass(theClass);
         return RedirectToPage("Index");

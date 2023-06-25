@@ -1,7 +1,8 @@
 using AutoMapper;
-using Domain.Dtos;
-using Domain.IRepositories;
+using Domain.Constants;
+using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.SemesterPages;
@@ -19,7 +20,7 @@ public class Index : PageModel
     }
     public void OnGet()
     {
-        var semesterList = _semesterRepository.GetAllSemester().Where(x => !x.Deleted);
+        var semesterList = _semesterRepository.GetAllSemester().Where(x => x.Deleted.Equals(Common.Status.Active));
         Semesters = _mapper.Map<IEnumerable<SemesterDto>>(semesterList);
     }
 }

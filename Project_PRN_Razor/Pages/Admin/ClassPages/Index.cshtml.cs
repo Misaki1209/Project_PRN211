@@ -1,6 +1,7 @@
 using AutoMapper;
-using Domain.Dtos;
-using Domain.IRepositories;
+using Domain.Constants;
+using Infrastructure.Dtos;
+using Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.ClassPages;
@@ -18,7 +19,7 @@ public class Index : PageModel
     }
     public void OnGet()
     {
-        var classList = _classRepository.GetAllClasses().Where(x => !x.Deleted);
+        var classList = _classRepository.GetAllClasses().Where(x => x.Deleted.Equals(Common.Status.Active));
         Classes = _mapper.Map<IEnumerable<ClassDto>>(classList);
     }
 }

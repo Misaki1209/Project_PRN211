@@ -1,0 +1,27 @@
+@page "{subjectId:int}"
+@model Project_PRN_Razor.Pages.Admin.SubjectPages.EditSubject
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Subject.SubjectId">Subject Id</label>
+        <input asp-for="Subject.SubjectId" class="form-control" value="@Model.Subject.SubjectId" readonly>
+    </div>
+    <div class="form-group">
+        <label asp-for="Subject.SubjectCode">Subject code</label>
+        <input asp-for="Subject.SubjectCode" class="form-control" value="@Model.Subject.SubjectCode" placeholder="subject code">
+    </div>
+    <div class="form-group">
+        <label asp-for="Subject.SubjectName">Subject name</label>
+        <input asp-for="Subject.SubjectName" class="form-control" value="@Model.Subject.SubjectName" placeholder="subject name">
+    </div>
+    
+    <div class="btn-group" style="margin-top: 50px; ">
+        <button type="submit" class="btn btn-success" style="width: 150px; margin-right: 10px;" asp-page-handler="Update"> Update</button>
+        <button type="submit" class="btn btn-danger" style="width: 150px" asp-page-handler="Delete"> Delete</button>
+    </div>
+
+</form>

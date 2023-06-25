@@ -7,4 +7,10 @@ public static class Common
         public const string Deleted = "Deleted";
         public const string Active = "Active";
     }
+
+    public static class AvailableStatus
+    {
+        public const string Available = "Available";
+        public const string UnAvailable = "Unavailable";
+    }
 }

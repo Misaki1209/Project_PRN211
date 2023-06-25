@@ -1,6 +1,7 @@
 using AutoMapper;
-using Domain.IRepositories;
+using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,7 +11,7 @@ public class EditSemester : PageModel
 {
     private ISemesterRepository _semesterRepository;
     private IMapper _mapper;
-    public Semester? Semester { get; set; }
+    public SemesterDto? Semester { get; set; }
 
     public EditSemester(ISemesterRepository semesterRepository, IMapper mapper)
     {
@@ -22,13 +23,13 @@ public class EditSemester : PageModel
         Semester = _semesterRepository.GetSemesterById(semesterId);
         return;
     }
-    public IActionResult OnPostUpdate(Semester semester)
+    public IActionResult OnPostUpdate(SemesterDto semester)
     {
         _semesterRepository.UpdateSemester(semester);
         return RedirectToPage("Index");
     }
 
-    public IActionResult OnPostDelete(Semester semester)
+    public IActionResult OnPostDelete(SemesterDto semester)
     {
         _semesterRepository.DeleteSemester(semester.SemesterId);
         return RedirectToPage("Index");

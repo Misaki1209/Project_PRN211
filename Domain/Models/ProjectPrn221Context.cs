@@ -182,16 +182,17 @@ public partial class ProjectPrn221Context : DbContext
 
         modelBuilder.Entity<SubjectMark>(entity =>
         {
-            entity
+            /*entity
                 .HasNoKey()
-                .ToTable("SubjectMark");
+                .ToTable("SubjectMark");*/
+            entity.ToTable("SubjectMark").HasKey(cc => new { cc.SubjectId, cc.MarkId });
 
-            entity.HasOne(d => d.Mark).WithMany()
+            entity.HasOne(d => d.Mark).WithMany(m => m.SubjectMarks)
                 .HasForeignKey(d => d.MarkId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SubjectMark_Mark");
 
-            entity.HasOne(d => d.Subject).WithMany()
+            entity.HasOne(d => d.Subject).WithMany(s => s.SubjectMarks)
                 .HasForeignKey(d => d.SubjectId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SubjectMark_Subject");

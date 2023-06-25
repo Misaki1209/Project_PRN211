@@ -1,0 +1,65 @@
+@page
+@using Domain.Constants
+@model Project_PRN_Razor.Pages.Admin.SubjectPages.Index
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Subject List</h2>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Subject Id</th>
+        <th scope="col">Subject Code</th>
+        <th scope="col">Subject Name</th>
+        <th scope="col">Mark Available</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var subject in Model.Subjects)
+    {
+        <tr>
+            <th scope="row">@subject.SubjectId</th>
+            <td>@subject.SubjectCode</td>
+            <td>@subject.SubjectName</td>
+            @if (subject.MarkAvailable.Equals(Common.AvailableStatus.Available))
+            {
+                <td class="text-success">@subject.MarkAvailable</td>
+            }
+            else
+            {
+                <td class="tex-warning">@subject.MarkAvailable</td>
+            }
+            
+            @if (subject.Deleted.Equals(Common.Status.Active))
+            {
+                <td class="text-success">@subject.Deleted</td>
+            }
+            else
+            {
+                <td class="text-danger">@subject.Deleted</td>
+            }
+
+            <td>
+                <a href="/Admin/SubjectPages/EditSubject/@subject.SubjectId" class="btn btn-primary">Edit</a>
+                <a href="/Admin/SubjectPages/DetailSubject/@subject.SubjectId" class="btn btn-primary">Detail</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div style="margin-top: 30px;">
+    <a href="/Admin/SubjectPages/CreateSubject" class="btn btn-primary">Create new Subject</a>
+</div>

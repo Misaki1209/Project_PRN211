@@ -1,7 +1,7 @@
-using Domain.IRepositories;
-using Domain.Mapping;
+using Infrastructure.IRepositories;
+using Infrastructure.Mapping;
 using Domain.Models;
-using Domain.Repositories;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

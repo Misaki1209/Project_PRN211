@@ -1,0 +1,19 @@
+@page
+@model Project_PRN_Razor.Pages.Admin.SubjectPages.CreateSubject
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Subject.SubjectName">Subject name</label>
+        <input asp-for="Subject.SubjectName" class="form-control" placeholder="name">
+    </div>
+    <div class="form-group">
+        <label asp-for="Subject.SubjectCode">Subject Code</label>
+        <input asp-for="Subject.SubjectCode" class="form-control" placeholder="Code">
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 150px; margin-top: 30px;"> Create</button>
+</form>

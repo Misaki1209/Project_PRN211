@@ -1,6 +1,8 @@
 using AutoMapper;
-using Domain.IRepositories;
+using Domain.Constants;
+using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +13,7 @@ public class CreateSemester : PageModel
 {
     private ISemesterRepository _semesterRepository;
     private IMapper _mapper;
-    public Semester Semester { get; set; }
+    public SemesterDto Semester { get; set; }
 
     public CreateSemester(ISemesterRepository semesterRepository, IMapper mapper)
     {
@@ -23,10 +25,10 @@ public class CreateSemester : PageModel
         
     }
 
-    public IActionResult OnPost(Semester semester)
+    public IActionResult OnPost(SemesterDto semester)
     {
         semester.SemesterId = _semesterRepository.GetNextId();
-        semester.Deleted = false;
+        semester.Deleted = Common.Status.Active;
         _semesterRepository.AddSemester(semester);
         return RedirectToPage("Index");
     }

@@ -1,6 +1,8 @@
 using AutoMapper;
-using Domain.IRepositories;
+using Domain.Constants;
+using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,7 +12,7 @@ public class CreateClass : PageModel
 {
     private IClassRepository _classRepository;
     private IMapper _mapper;
-    public Class TheClass { get; set; }
+    public ClassDto TheClass { get; set; }
 
     public CreateClass(IClassRepository classRepository, IMapper mapper)
     {
@@ -22,10 +24,10 @@ public class CreateClass : PageModel
         
     }
 
-    public IActionResult OnPost(Class theClass)
+    public IActionResult OnPost(ClassDto theClass)
     {
         theClass.ClassId = _classRepository.GetNextId();
-        theClass.Deleted = false;
+        theClass.Deleted = Common.Status.Active;
         _classRepository.AddClass(theClass);
         return RedirectToPage("Index");
     }

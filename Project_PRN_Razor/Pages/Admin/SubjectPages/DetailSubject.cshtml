@@ -1,0 +1,62 @@
+@page "{subjectId:int}"
+@using Domain.Constants
+@model Project_PRN_Razor.Pages.Admin.SubjectPages.DetailSubject
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<div class="card w-75">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Subject.SubjectName</h5>
+        <table class="card-body table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Mark Name</th>
+                <th scope="col">Coefficient</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var mark in Model.Subject.MarkList)
+            {
+                <tr>
+                    <td>@mark.Mark.MarkName</td>
+                    <td>@mark.Mark.Coefficient</td>
+
+                    <td>
+                        <form method="post">
+                            <input asp-for="SelectedSubjectId" value="@Model.Subject.SubjectId" type="hidden"/>
+                            <input asp-for="SelectedMarkId" value="@mark.MarkId" type="hidden"/>
+                            <button type="submit" asp-page-handler="DeleteMark" style="width:150px" class="btn btn-primary">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <form method="post">
+            <input asp-for="SelectedSubjectId" value="@Model.Subject.SubjectId" type="hidden"/>
+            <div class="form-group">
+                <label asp-for="SelectedMarkId">Add new mark: </label>
+                <select class="form-select" asp-for="SelectedMarkId">
+                    @foreach (var mark in Model.MarkList)
+                    {
+                        <option value="@mark.MarkId">@mark.MarkId - @mark.MarkName - @mark.Coefficient</option>
+                    }
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary" style="width:150px" asp-page-handler="AddMark">Add</button>
+            </div>
+        </form>
+        @if (Model.Subject.MarkAvailable.Equals(Common.AvailableStatus.Available))
+        {
+            <p class="text-success" style="margin-top: 30px">@Model.Subject.MarkAvailable</p>
+        }
+        else
+        {
+            <p class="text-danger" style="margin-top: 30px">@Model.Subject.MarkAvailable : Sum of mark coefficient must equals to 1.</p>
+        }
+    </div>
+</div>
