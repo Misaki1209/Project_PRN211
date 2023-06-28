@@ -143,11 +143,26 @@ public class SubjectRepository : ISubjectRepository
                 SubjectId = subjectId,
                 MarkId = markId
             };
-            var markReadModel = _mapper.Map<Mark>(markId);
-            var subjectReadModel = _mapper.Map<Subject>(subjectId);
-            if (markReadModel != null && !markReadModel.Deleted
-                                      && subjectReadModel != null && !subjectReadModel.Deleted
-                                      && !_context.SubjectMarks.Any(x => x.MarkId == markId && x.SubjectId == subjectId))
+            var markReadModel = _context.Marks.FirstOrDefault(x => x.MarkId == markId);
+            var subjectReadModel = _context.Subjects.FirstOrDefault(x => x.SubjectId == subjectId);
+            if (markReadModel.Resit != null)
+            {
+                var markResit = _context.Marks.FirstOrDefault(x => x.MarkId == markReadModel.Resit);
+                if (markResit is { Deleted: false }
+                    && subjectReadModel is { Deleted: false }
+                    && !_context.SubjectMarks.Any(x => x.MarkId == markReadModel.Resit && x.SubjectId == subjectId))
+                {
+                    _context.SubjectMarks.Add(new SubjectMark()
+                    {
+                        SubjectId = subjectId,
+                        MarkId = markResit.MarkId
+                    });
+                    _context.SaveChanges();
+                }
+            }
+            if (markReadModel is { Deleted: false } 
+                && subjectReadModel is { Deleted: false } 
+                && !_context.SubjectMarks.Any(x => x.MarkId == markId && x.SubjectId == subjectId))
             {
                 _context.SubjectMarks.Add(subjectMark);
                 _context.SaveChanges();
@@ -188,13 +203,33 @@ public class SubjectRepository : ISubjectRepository
         }
     }
 
+    public void ApplySubject(int subjectId)
+    {
+        try
+        {
+            var subjectApply = _context.Subjects.FirstOrDefault(x => x.SubjectId == subjectId);
+            if (subjectApply == null)
+                throw new Exception("Not found");
+            if (subjectApply.Applied)
+                throw new Exception("Already applied");
+            subjectApply.Applied = true;
+            _context.Subjects.Update(subjectApply);
+            _context.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     private void UpdateMarkAvailable(int subjectId)
     {
         try
         {
             var subject = _context.Subjects.Include(x => x.SubjectMarks).ThenInclude(x => x.Mark).FirstOrDefault(x => x.SubjectId == subjectId);
-            var resitIdList = subject.SubjectMarks.Where(x => x.Mark.Resit != null).Select(x => x.Mark.Resit);
-            var sumOfCoefficient = subject.SubjectMarks.Where(x => resitIdList.Contains(x.MarkId)).Sum(x => x.Mark.Coefficient);
+            var resitIdList = subject.SubjectMarks.Where(x => x.Mark.Resit != null).Select(x => x.Mark.Resit).ToList();
+            var sumOfCoefficient = subject.SubjectMarks.Where(x => !resitIdList.Contains(x.MarkId)).Sum(x => x.Mark.Coefficient);
             if (sumOfCoefficient != 1) subject.MarkAvailable = false;
             else subject.MarkAvailable = true;
             _context.Subjects.Update(subject);

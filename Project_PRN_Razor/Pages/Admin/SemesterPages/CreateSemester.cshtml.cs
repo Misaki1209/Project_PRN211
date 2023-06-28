@@ -3,12 +3,13 @@ using Domain.Constants;
 using Infrastructure.IRepositories;
 using Domain.Models;
 using Infrastructure.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Project_PRN_Razor.Pages.Admin.SemesterPages;
-
+[Authorize(Roles = "Admin")]
 public class CreateSemester : PageModel
 {
     private ISemesterRepository _semesterRepository;

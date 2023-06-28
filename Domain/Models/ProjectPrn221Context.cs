@@ -62,6 +62,9 @@ public partial class ProjectPrn221Context : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .IsFixedLength();
+            entity.Property(e => e.Role)
+                .HasMaxLength(50)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Class>(entity =>

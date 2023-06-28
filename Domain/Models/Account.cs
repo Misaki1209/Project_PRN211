@@ -13,7 +13,7 @@ public partial class Account
 
     public int Status { get; set; }
 
-    public int Role { get; set; }
+    public string Role { get; set; }
 
     public virtual ICollection<Enrollment> EnrollmentStudents { get; set; } = new List<Enrollment>();
 

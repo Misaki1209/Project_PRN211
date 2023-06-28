@@ -2,11 +2,12 @@ using AutoMapper;
 using Infrastructure.IRepositories;
 using Domain.Models;
 using Infrastructure.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.ClassPages;
-
+[Authorize(Roles = "Admin")]
 public class EditClass : PageModel
 {
     private IClassRepository _classRepository;

@@ -15,7 +15,7 @@ public partial class Enrollment
 
     public int StudentId { get; set; }
 
-    public double FinalMark { get; set; }
+    public double? FinalMark { get; set; }
 
     public int SemesterId { get; set; }
 

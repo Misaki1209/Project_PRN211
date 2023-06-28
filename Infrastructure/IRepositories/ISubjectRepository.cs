@@ -14,4 +14,5 @@ public interface ISubjectRepository
     public SubjectDetailDto? GetSubjectDetailById(int id);
     public void AddMarkToSubject(int subjectId, int markId);
     public void DeleteMarkToSubject(int subjectId, int markId);
+    public void ApplySubject(int subjectId);
 }

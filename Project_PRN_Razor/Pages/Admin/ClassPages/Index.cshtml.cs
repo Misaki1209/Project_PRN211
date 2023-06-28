@@ -2,10 +2,11 @@ using AutoMapper;
 using Domain.Constants;
 using Infrastructure.Dtos;
 using Infrastructure.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.ClassPages;
-
+[Authorize(Roles = "Admin")]
 public class Index : PageModel
 {
     private IClassRepository _classRepository;

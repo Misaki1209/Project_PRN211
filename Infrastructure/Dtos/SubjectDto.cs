@@ -12,6 +12,7 @@ public class SubjectDto
 
     public string Deleted { get; set; }
     public string MarkAvailable { get; set; }
+    public bool Applied { get; set; }
     
 }
 
@@ -22,5 +23,6 @@ public class SubjectDetailDto
     public string SubjectName { get; set; }
     public string Deleted { get; set; }
     public string MarkAvailable { get; set; }
+    public bool Applied { get; set; }
     public List<SubjectMark> MarkList { get; set; }
 }

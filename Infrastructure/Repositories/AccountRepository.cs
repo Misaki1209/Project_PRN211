@@ -1,5 +1,8 @@
+using System.Security.Cryptography;
+using System.Text;
 using Infrastructure.IRepositories;
 using Domain.Models;
+using Infrastructure.Dtos;
 
 namespace Infrastructure.Repositories;
 
@@ -87,5 +90,43 @@ public class AccountRepository : IAccountRepository
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    public Account? GetAccountLogin(LoginDto loginDto)
+    {
+        try
+        {
+            var loginAccount = _context.Accounts.FirstOrDefault(x => x.Email.ToUpper().Equals(loginDto.Email.ToUpper()));
+            if (loginAccount != null && IsPasswordMatch(loginDto.Password, loginAccount.Password))
+                return loginAccount;
+            return null;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private static string EncodePassword(string password)
+    {
+        using var md5 = MD5.Create();
+        var inputBytes = Encoding.ASCII.GetBytes(password);
+        var hashBytes = md5.ComputeHash(inputBytes);
+
+        var sb = new StringBuilder();
+        for(var i = 0; i < hashBytes.Length; i++)
+        {
+            sb.Append(hashBytes[i].ToString("X2"));
+        }
+
+        return sb.ToString();
+    }
+    
+    public static bool IsPasswordMatch(string inputPassword, string hashedPassword)
+    {
+        var encodedInputPassword = EncodePassword(inputPassword);
+        var check =  encodedInputPassword.Trim().Equals(hashedPassword.Trim());
+        return check;
     }
 }

@@ -3,10 +3,11 @@ using Domain.Constants;
 using Infrastructure.IRepositories;
 using Domain.Models;
 using Infrastructure.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.SemesterPages;
-
+[Authorize(Roles = "Admin")]
 public class Index : PageModel
 {
     private ISemesterRepository _semesterRepository;

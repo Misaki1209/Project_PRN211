@@ -14,6 +14,7 @@ public partial class Subject
 
     public bool Deleted { get; set; }
     public bool MarkAvailable { get; set; }
+    public bool Applied { get; set; }
 
     public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
     //public virtual ICollection<Mark> Marks { get; set; } = new List<Mark>();

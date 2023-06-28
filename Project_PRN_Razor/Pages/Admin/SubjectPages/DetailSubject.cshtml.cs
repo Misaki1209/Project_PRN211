@@ -2,11 +2,12 @@ using AutoMapper;
 using Domain.Constants;
 using Infrastructure.Dtos;
 using Infrastructure.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.SubjectPages;
-
+[Authorize(Roles = "Admin")]
 public class DetailSubject : PageModel
 {
     private ISubjectRepository _subjectRepository;
@@ -50,6 +51,15 @@ public class DetailSubject : PageModel
             _subjectRepository.DeleteMarkToSubject(selectedSubjectId, selectedMarkId);
         }
 
+        return RedirectToPage("DetailSubject", new { id = selectedSubjectId});
+    }
+
+    public IActionResult OnPostApply(int selectedSubjectId)
+    {
+        if (selectedSubjectId != 0)
+        {
+            _subjectRepository.ApplySubject(selectedSubjectId);
+        }
         return RedirectToPage("DetailSubject", new { id = selectedSubjectId});
     }
 }

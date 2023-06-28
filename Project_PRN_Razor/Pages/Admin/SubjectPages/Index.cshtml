@@ -52,7 +52,14 @@
             }
 
             <td>
-                <a href="/Admin/SubjectPages/EditSubject/@subject.SubjectId" class="btn btn-primary">Edit</a>
+                @if (@subject.Applied)
+                {
+                    <a href="/Admin/SubjectPages/EditSubject/@subject.SubjectId" class="btn btn-primary disabled" >Edit</a>
+                }
+                else
+                {
+                    <a href="/Admin/SubjectPages/EditSubject/@subject.SubjectId" class="btn btn-primary">Edit</a>
+                }
                 <a href="/Admin/SubjectPages/DetailSubject/@subject.SubjectId" class="btn btn-primary">Detail</a>
             </td>
         </tr>

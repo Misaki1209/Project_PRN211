@@ -2,11 +2,12 @@ using AutoMapper;
 using Domain.Constants;
 using Infrastructure.Dtos;
 using Infrastructure.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Project_PRN_Razor.Pages.Admin.SubjectPages;
-
+[Authorize(Roles = "Admin")]
 public class EditSubject : PageModel
 {
     private ISubjectRepository _subjectRepository;

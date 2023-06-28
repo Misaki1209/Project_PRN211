@@ -3,6 +3,7 @@ using Infrastructure.Mapping;
 using Domain.Models;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,13 @@ builder.Services.AddDbContext<ProjectPrn221Context>(options => options.UseSqlSer
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/LoginPage";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,7 +46,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
