@@ -1,0 +1,46 @@
+@page "{selectedSemesterId:int}/{selectedSubjectId:int}/{selectedClassId:int}"
+@using Project_PRN_Razor.Pages.Shared
+@model Project_PRN_Razor.Teacher.ClassDetail
+
+@{
+    Layout = "Shared/_LayoutTeacher";
+}
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Student List: @Model.SelectedClass.ClassName</h2>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Student Code</th>
+        <th scope="col">Student name</th>
+        <th scope="col">Semester</th>
+        <th scope="col">Subject</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var enrol in Model.EnrollmentList)
+    {
+        <tr>
+            <th scope="row">@enrol.StudentCode</th>
+            <td>@enrol.StudentName</td>
+            <td>@Model.SelectedSemester.SemesterName</td>
+            <td>@Model.SelectedSubject.SubjectName</td>
+            <td>
+                <a href="/Teacher/EnrollmentDetail/@enrol.EnrollmentId" class="btn btn-primary">Detail</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div style="margin-top: 30px;">
+    <a href="/Admin/SubjectPages/CreateSubject" class="btn btn-primary">Create new Subject</a>
+</div>

@@ -125,9 +125,7 @@ public partial class ProjectPrn221Context : DbContext
 
         modelBuilder.Entity<MarkReport>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("MarkReport");
+            entity.ToTable("MarkReport").HasKey(cc => new { cc.EnrollmentId, cc.MarkId });
 
             entity.HasOne(d => d.Enrollment).WithMany()
                 .HasForeignKey(d => d.EnrollmentId)
