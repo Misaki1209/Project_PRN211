@@ -1,0 +1,56 @@
+@page "{selectedSemesterId:int}/{selectedSubjectId:int}/{selectedClassId:int}"
+@model Project_PRN_Razor.Pages.Admin.EnrollmentPages.ClassDetail
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+@if (Model.ViewData["Message"] != null)
+{
+    <h1>@Model.ViewData["Message"]</h1>
+}
+<h1></h1>
+<div class="row pt-4">
+    <h2 class="text-primary">@Model.SelectedClass.ClassName - @Model.SelectedSemester.SemesterName - @Model.SelectedSubject.SubjectName</h2>
+</div>
+<div style="display: flex; margin-top: 40px;">
+    <div>
+        <form method="post" style="margin-left: 10px">
+            <input name="selectedSemesterId" value="@Model.SelectedSemester.SemesterId" type="hidden"/>
+            <input name="selectedSubjectId" value="@Model.SelectedSubject.SubjectId" type="hidden"/>
+            <input name="selectedClassId" value="@Model.SelectedClass.ClassId" type="hidden"/>
+            <button type="submit" asp-page-handler="GetTemplate" class="btn btn-info">Export</button>
+        </form>
+    </div>
+
+</div>
+<br/><br/>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Student Code</th>
+        <th scope="col">Student name</th>
+        @foreach (var name in @Model.MarkNameList)
+        {
+            <th scope="col">@name</th>
+        }
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (var i = 0; i < Model.EnrollmentList.Count; i++)
+    {
+        <tr>
+            <th scope="row">@Model.EnrollmentList[i].StudentCode</th>
+            <td>@Model.EnrollmentList[i].StudentName</td>
+            @foreach (var mark in @Model.MarkReportList[i])
+            {
+                <td>@mark.MarkValue</td>
+            }
+            <td>
+
+                <a href="/Admin/EnrollmentPages/EnrollmentDetail/@Model.EnrollmentList[i].EnrollmentId" class="btn btn-primary">Detail</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

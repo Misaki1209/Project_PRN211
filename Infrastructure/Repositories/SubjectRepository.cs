@@ -125,6 +125,8 @@ public class SubjectRepository : ISubjectRepository
         try
         {
             var subject = _context.Subjects.Include(x => x.SubjectMarks).ThenInclude(x => x.Mark).FirstOrDefault(x => x.SubjectId == id);
+            subject.SubjectMarks.OrderBy(x => x.Mark.Coefficient)
+                .ThenBy(x => x.Mark.MarkName);
             return _mapper.Map<SubjectDetailDto>(subject);
         }
         catch (Exception e)

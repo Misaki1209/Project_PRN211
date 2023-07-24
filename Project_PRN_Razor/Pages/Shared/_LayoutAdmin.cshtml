@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] FAP</title>
+    <title>@ViewData["Title"] -Misaki-</title>
+    <link rel="icon" type="image/x-icon" href="~/img/Noctuline-Wall-E-Wall-E.512.png">
     @*<link rel="stylesheet" href="~/css/sketchy.css"/>*@
     <link rel="stylesheet" href="~/css/styles.css"/>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
@@ -44,7 +45,7 @@
                     <hr class="dropdown-divider"/>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="#!">Logout</a>
+                    <a class="dropdown-item" asp-page="/LoginPage" asp-page-handler="LogOut">Logout</a>
                 </li>
             </ul>
         </li>
@@ -56,14 +57,23 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#coreLayout" aria-expanded="false" aria-controls="coreLayout">
                         <div class="sb-nav-link-icon">
-                            <i class="fas fa-tachometer-alt"></i>
+                            <i class="fas fa-columns"></i>
                         </div>
-                        Dashboard
+                        Enrollment
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
                     </a>
+                    <div class="collapse" id="coreLayout" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" asp-page="/Admin/EnrollmentPages/Index">View</a>
+                            <a class="nav-link" asp-page="/Admin/EnrollmentPages/CreateEnrollment">Create</a>
+                        </nav>
+                    </div>
                     <div class="sb-sidenav-menu-heading">User</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#teacherLayouts" aria-expanded="false" aria-controls="teacherLayouts">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-columns"></i>
                         </div>
@@ -72,7 +82,13 @@
                             <i class="fas fa-angle-down"></i>
                         </div>
                     </a>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="collapse" id="teacherLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" asp-page="/Admin/TeacherPages/Index">Teacher list</a>
+                            <a class="nav-link" asp-page="/Admin/TeacherPages/AddTeacherAccount">Add teacher account</a>
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#studentLayouts" aria-expanded="false" aria-controls="studentLayouts">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-columns"></i>
                         </div>
@@ -81,10 +97,10 @@
                             <i class="fas fa-angle-down"></i>
                         </div>
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="studentLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                            <a class="nav-link" asp-page="/Admin/StudentPages/Index">Student List</a>
+                            <a class="nav-link" asp-page="/Admin/StudentPages/AddStudentAccount">Add Student account</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -133,7 +149,7 @@
                         </div>
                         Semester
                     </a>
-                    
+
                     <a class="nav-link" asp-page="/Admin/ClassPages/Index">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-chart-area"></i>

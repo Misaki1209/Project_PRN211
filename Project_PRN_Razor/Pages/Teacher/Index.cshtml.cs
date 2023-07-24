@@ -64,7 +64,7 @@ public class Index : PageModel
         var subjectIdList = _enrollmentRepository.GetSubjectIdListByTeacher(int.Parse(User.FindFirstValue(ClaimTypes.Sid)), selectedSemesterId);
         Subjects = _subjectRepository.GetAllSubjects().Where(x => subjectIdList.Contains(x.SubjectId));
         SelectedSubjectId = selectedSubjectId;
-        var classIdList = _enrollmentRepository.GetClassIdList(int.Parse(User.FindFirstValue(ClaimTypes.Sid)), selectedSemesterId, selectedSubjectId);
+        var classIdList = _enrollmentRepository.GetClassIdListByTeacher(int.Parse(User.FindFirstValue(ClaimTypes.Sid)), selectedSemesterId, selectedSubjectId);
         Classes = _classRepository.GetAllClasses().Where(x => classIdList.Contains(x.ClassId));
         return Page();
     }

@@ -73,13 +73,46 @@ public class EnrollmentRepository : IEnrollmentRepository
         }
     }
 
-    public List<int> GetClassIdList(int teacherId, int semesterId, int subjectId)
+    public List<int> GetSubjctIdListByAdmin(int semesterId)
+    {
+        try
+        {
+            return _context.Enrollments
+                .Where(x => x.SemesterId == semesterId)
+                .Select(x => x.SubjectId)
+                .ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public List<int> GetClassIdListByTeacher(int teacherId, int semesterId, int subjectId)
     {
         try
         {
             return _context.Enrollments
                 .Where(x => x.TeacherId == teacherId 
                             && x.SemesterId == semesterId 
+                            && x.SubjectId == subjectId)
+                .Select(x => x.ClassId)
+                .ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public List<int> GetClassIdListByAdmin(int semesterId, int subjectId)
+    {
+        try
+        {
+            return _context.Enrollments
+                .Where(x => x.SemesterId == semesterId 
                             && x.SubjectId == subjectId)
                 .Select(x => x.ClassId)
                 .ToList();
@@ -99,6 +132,36 @@ public class EnrollmentRepository : IEnrollmentRepository
                 .Include(x => x.Student)
                 .Where(x => x.TeacherId == teacherId
                             && x.SemesterId == semesterId && x.SubjectId == subjectId && x.ClassId == classId);
+            var cc =  enrollmentList.Join(_context.StudentDetails,
+                e => e.Student.AccountId,
+                s => s.AccountId,
+                (e, s) => new EnrollmentForClassList
+                {
+                    EnrollmentId = e.EnrollmentId,
+                    TeacherId = e.TeacherId,
+                    SubjectId = e.SubjectId,
+                    ClassId = e.ClassId,
+                    StudentId = e.StudentId,
+                    SemesterId = e.SemesterId,
+                    StudentCode = s.StudentCode,
+                    StudentName = s.FullName
+                }).ToList();
+            return cc;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public List<EnrollmentForClassList> GetClassDetailByAdmin(int semesterId, int subjectId, int classId)
+    {
+        try
+        {
+            var enrollmentList = _context.Enrollments
+                .Include(x => x.Student)
+                .Where(x => x.SemesterId == semesterId && x.SubjectId == subjectId && x.ClassId == classId);
             var cc =  enrollmentList.Join(_context.StudentDetails,
                 e => e.Student.AccountId,
                 s => s.AccountId,
@@ -192,7 +255,7 @@ public class EnrollmentRepository : IEnrollmentRepository
         }
     }
 
-    public EnrollmentDto GetEnrollmentDetailByStudent(int studentId, int semesterId, int subjectId)
+    public EnrollmentDto? GetEnrollmentDetailByStudent(int studentId, int semesterId, int subjectId)
     {
         try
         {
@@ -204,6 +267,8 @@ public class EnrollmentRepository : IEnrollmentRepository
                 .Include(x => x.Subject)
                 .ThenInclude(x => x.SubjectMarks).ThenInclude(x => x.Mark)
                 .FirstOrDefault(x => x.StudentId == studentId && x.SemesterId == semesterId && x.SubjectId == subjectId);
+            if (enrollment == null)
+                return null;
             var studentDetail = _context.StudentDetails.FirstOrDefault(x => x.AccountId == enrollment.StudentId);
             var enrollmentDto = new EnrollmentDto
             {
@@ -273,6 +338,33 @@ public class EnrollmentRepository : IEnrollmentRepository
 
             _context.Enrollments.Update(enrollment);
             _context.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public void AddEnrollment(Enrollment enrollment)
+    {
+        try
+        {
+            _context.Enrollments.Add(enrollment);
+            _context.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public int GetNextId()
+    {
+        try
+        {
+            return _context.Enrollments.OrderByDescending(x => x.EnrollmentId).First().EnrollmentId + 1;
         }
         catch (Exception e)
         {

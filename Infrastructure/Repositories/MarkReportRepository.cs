@@ -16,7 +16,9 @@ public class MarkReportRepository : IMarkReportRepository
     {
         try
         {
-            var cc =  _context.MarkReports.Include(x => x.Mark).Where(x => x.EnrollmentId == enrollmentId).ToList();
+            var cc =  _context.MarkReports.Include(x => x.Mark).Where(x => x.EnrollmentId == enrollmentId)
+                .OrderBy(x => x.Mark.Coefficient)
+                .ThenBy(x => x.Mark.MarkName).ToList();
             return cc;
         }
         catch (Exception e)

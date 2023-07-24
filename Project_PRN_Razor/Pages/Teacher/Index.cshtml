@@ -50,7 +50,7 @@
                     @foreach (var classs in Model.Classes)
                     {
                         <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
-                            <a href="/Teacher/ClassDetail/@Model.SelectedSemesterId/@Model.SelectedSubjectId/@classs.ClassId">@classs.ClassName</a>
+                            <a class="btn btn-primary" href="/Teacher/ClassDetail/@Model.SelectedSemesterId/@Model.SelectedSubjectId/@classs.ClassId">@classs.ClassName</a>
                         </li>
                     }
                 </ul>

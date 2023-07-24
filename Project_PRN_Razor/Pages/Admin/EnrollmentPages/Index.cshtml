@@ -1,15 +1,15 @@
 @page
-@model Project_PRN_Razor.Pages.Student.Index
+@model Project_PRN_Razor.Pages.Admin.EnrollmentPages.Index
 
 @{
-    Layout = "Shared/_LayoutTeacher";
+    Layout = "Shared/_LayoutAdmin";
 }
 
 <div class="container" style="margin-top: 30px;">
     <div class="row">
-        <div class="col-3">
+        <div class="col-4">
             <h3 class="text-primary">Semester</h3>
-            <ul class="list-group" style="margin-top: 47px">
+            <ul class="list-group">
                 @foreach (var semester in Model.Semesters)
                 {
                     <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
@@ -22,18 +22,18 @@
                 }
             </ul>
         </div>
-        <div class="col-3">
+        <div class="col-4">
             <h3 class="text-primary">Subject</h3>
             @if (Model.Subjects != null)
             {
-                <ul class="list-group" style="margin-top: 47px">
+                <ul class="list-group">
                     @foreach (var subject in Model.Subjects)
                     {
                         <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
                             <form method="post">
                                 <input asp-for="SelectedSemesterId" value="@Model.SelectedSemesterId" type="hidden"/>
                                 <input asp-for="SelectedSubjectId" value="@subject.SubjectId" type="hidden"/>
-                                <button type="submit" class="btn btn-primary" asp-page-handler="LoadMarkReport">@subject.SubjectName</button>
+                                <button type="submit" class="btn btn-primary" asp-page-handler="LoadClass">@subject.SubjectName</button>
                             </form>
                             @*<button type="button" class="btn btn-primary" onclick="selectSemester(@semester.SemesterId)">@semester.SemesterName</button>*@
                         </li>
@@ -41,38 +41,19 @@
                 </ul>
             }
         </div>
-        <div class="col-6">
-            <h3 class="text-primary">Mark Report</h3>
-            @if (Model.MarkList != null)
+        <div class="col-4">
+            <h3 class="text-primary">Class</h3>
+            @if (Model.Classes != null)
             {
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Mark Name</th>
-                        <th scope="col">Weight</th>
-                        <th scope="col">Value</th>
-                    </tr>
-                    </thead>
-                    @foreach (var mark in Model.MarkList)
+                <ul class="list-group">
+                    @foreach (var classs in Model.Classes)
                     {
-                        <tr class="table-light">
-                            <td>@mark.MarkName</td>
-                            <td>@mark.Coefficient</td>
-                            <td>@mark.MarkValue</td>
-                        </tr>
+                        <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+                            <a class="btn btn-primary" href="/Admin/EnrollmentPages/ClassDetail/@Model.SelectedSemesterId/@Model.SelectedSubjectId/@classs.ClassId">@classs.ClassName</a>
+                        </li>
                     }
-                </table>
-                <h5 class="text-dark" style="margin-top: 20px">Average: @Model.EnrollmentModel.FinalMark</h5>
-                @if (Model.EnrollmentModel.Status)
-                {
-                    <h5 class="text-success">Pass</h5>
-                }
-                else
-                {
-                    <h5 class="text-danger">Not pass</h5>
-                }
+                </ul>
             }
-            
         </div>
     </div>
 </div>

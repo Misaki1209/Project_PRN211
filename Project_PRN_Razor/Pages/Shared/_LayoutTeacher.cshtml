@@ -3,10 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - TestWebApp</title>
-    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/TestWebApp.styles.css" asp-append-version="true"/>*@
+    <title>@ViewData["Title"] -Misaki-</title>
+    <link rel="icon" type="image/x-icon" href="~/img/Noctuline-Wall-E-Wall-E.512.png">
     <link rel="stylesheet" href="~/css/mint.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
@@ -46,14 +44,14 @@
                         </div>
                     </li>
                 </ul>
-                <div class="nav-item dropdown">
+                <div class="nav-item dropdown dropdown-menu-end">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Account</a>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" asp-page="/LoginPage" asp-page-handler="LogOut">Logout</a>
                     </div>
                 </div>
             </div>

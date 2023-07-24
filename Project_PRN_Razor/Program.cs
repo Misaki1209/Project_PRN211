@@ -50,6 +50,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseStatusCodePagesWithReExecute("/LoginPage", "?statusCode={0}");
+
 app.MapRazorPages();
 
 app.Run();

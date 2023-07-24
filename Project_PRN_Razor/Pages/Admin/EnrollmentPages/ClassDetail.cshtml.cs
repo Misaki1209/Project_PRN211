@@ -1,16 +1,15 @@
 using System.Security.Claims;
 using AutoMapper;
 using ClosedXML.Excel;
-using Domain.Constants;
 using Infrastructure.Dtos;
 using Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Project_PRN_Razor.Teacher;
-[Authorize(Roles = "Teacher")]
+namespace Project_PRN_Razor.Pages.Admin.EnrollmentPages;
+
+[Authorize(Roles = "Admin")]
 public class ClassDetail : PageModel
 {
     private ISemesterRepository _semesterRepository;
@@ -34,7 +33,7 @@ public class ClassDetail : PageModel
     
     [BindProperty]
     public List<List<MarkReportDto>> MarkReportList { get; set; }
-    
+
     [BindProperty]
     public List<string> MarkNameList { get; set; }
     public ClassDetail(ISemesterRepository semesterRepository, ISubjectRepository subjectRepository, IClassRepository classRepository, IEnrollmentRepository enrollmentRepository, IMarkReportRepository markReportRepository, IMarkRepository markRepository, IMapper mapper)
@@ -53,7 +52,7 @@ public class ClassDetail : PageModel
         SelectedClass = _classRepository.GetClassById(selectedClassId);
         SelectedSemester = _semesterRepository.GetSemesterById(selectedSemesterId);
         SelectedSubject = _subjectRepository.GetSubjectById(selectedSubjectId);
-        EnrollmentList = _enrollmentRepository.GetClassDetail(int.Parse(User.FindFirstValue(ClaimTypes.Sid)), selectedSemesterId, selectedSubjectId, selectedClassId);
+        EnrollmentList = _enrollmentRepository.GetClassDetailByAdmin( selectedSemesterId, selectedSubjectId, selectedClassId);
         MarkReportList = new List<List<MarkReportDto>>();
         for (var i = 0; i < EnrollmentList.Count; i++)
         {
@@ -89,69 +88,7 @@ public class ClassDetail : PageModel
         return File(streamWriter.ToArray(),  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "templateMark.xlsx");
         //return Page();
     }
-
-    public IActionResult OnPostImportMark(IFormFile importFile, int selectedSemesterId, int selectedSubjectId, int selectedClassId)
-    {
-        SelectedClass = _classRepository.GetClassById(selectedClassId);
-        SelectedSemester = _semesterRepository.GetSemesterById(selectedSemesterId);
-        SelectedSubject = _subjectRepository.GetSubjectById(selectedSubjectId);
-        EnrollmentList = _enrollmentRepository.GetClassDetail(int.Parse(User.FindFirstValue(ClaimTypes.Sid)), selectedSemesterId, selectedSubjectId, selectedClassId);
-        if (importFile != null && importFile.Length > 0 && Path.GetExtension(importFile.FileName).ToLower() == ".xlsx")
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                importFile.CopyTo(memoryStream);
-                using (var workbook = new XLWorkbook(memoryStream))
-                {
-                    var worksheet = workbook.Worksheet(1);
-                    if (!ValidateFile(worksheet))
-                    {
-                        ViewData["Message"] = "Wrong template";
-                        return RedirectToPage("ClassDetail");
-                    }
-                    var firstRow = true;
-                    var readRange = "1:1";
-                    var cellSize = 0;
-                    var row = 0;
-                    foreach (var datarow in worksheet.RowsUsed())
-                    {
-                        if (firstRow)
-                        {
-                            cellSize = datarow.CellsUsed().Count();
-                            firstRow = false;
-                            continue;
-                        }
-
-                        for (var i = 3; i <= cellSize; i++)
-                        {
-                            var cc = EnrollmentList[row].EnrollmentId;
-                            var markDetailList = _markReportRepository.GetMarkReportByEnrollmentId(cc);
-                            var cellValue = datarow.Cell(i).Value;
-                            var markValue = Double.Parse(cellValue.ToString());
-                            _markReportRepository.UpdateMarkValue(cc, markDetailList[i-3].MarkId, markValue);
-                            continue;
-                        }
-
-                        row++;
-                    }
-
-                    if (firstRow)
-                    {
-                        ViewData["Message"] = "Empty file";
-                    }
-                    else
-                    {
-                        ViewData["Message"] = "Successfully";
-                    }
-                }
-            }
-        }
-        else
-        {
-            ViewData["Message"] = "Please select .xlsx file";
-        }
-        return RedirectToPage("ClassDetail");
-    }
+    
 
     private XLWorkbook BuildTemplate()
     {
@@ -196,49 +133,7 @@ public class ClassDetail : PageModel
         return workbook;
     }
 
-    private bool ValidateFile(IXLWorksheet worksheet)
-    {
-        var firstRow = worksheet.RowsUsed().First();
-        var listItem = GetValidFirstRow();
-        var cellSize = firstRow.CellsUsed().Count();
-        if (cellSize != listItem.Count) return false;
-        for(var i = 1; i<=cellSize; i++)
-        {
-            var cc = firstRow.Cell(i).Value.ToString();
-            if (cc != listItem[i - 1])
-            {
-                return false;
-            }
-        }
+    
 
-        var row = 1;
-        foreach (var enroll in EnrollmentList)
-        {
-            var markDetailList = _markReportRepository.GetMarkReportByEnrollmentId(enroll.EnrollmentId);
-            row++;
-            if (worksheet.Cell(row, 1).Value.ToString() != enroll.StudentCode)
-            {
-                return false;
-            }
-            if (worksheet.Cell(row, 2).Value.ToString() != enroll.StudentName)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private List<string> GetValidFirstRow()
-    {
-        var subjectDetail = _subjectRepository.GetSubjectDetailById(SelectedSubject.SubjectId);
-        var result = new List<string>();
-        result.Add("Student Code");
-        result.Add("Student name");
-        foreach (var mark in subjectDetail.MarkList)
-        {
-            result.Add(mark.Mark.MarkName);
-        }
-
-        return result;
-    }
+    
 }

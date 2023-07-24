@@ -1,0 +1,59 @@
+@page "{enrollmentId:int}"
+@model Project_PRN_Razor.Pages.Admin.EnrollmentPages.EnrollmentDetail
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<div class="container" style="margin-top: 100px;">
+    <h3 class="font-weight-bold">Mark report</h3>
+    <div class="row" style="margin-top: 30px">
+        <div class="col-6">
+            <div class="card border-info mb-3" style="max-width: 20rem;">
+                <div class="card-header">Mark Report</div>
+                <div class="card-body">
+                    <p class="text-dark">Semester: @Model.EnrollmentModel.Semester.SemesterName</p>
+                    <p class="text-dark">Student Code: @Model.EnrollmentModel.StudentCode</p>
+                    <p class="text-dark">Student name: @Model.EnrollmentModel.StudentName</p>
+                    <p class="text-dark">Class: @Model.EnrollmentModel.Class.ClassName</p>
+                    <p class="text-dark">Subject:@Model.EnrollmentModel.Subject.SubjectCode-@Model.EnrollmentModel.Subject.SubjectName</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Mark Name</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var mark in Model.MarkList)
+                {
+                    <tr>
+                        <th scope="row">@mark.MarkName</th>
+                        <td>@mark.Coefficient</td>
+                        <td>@mark.MarkValue</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+
+            <h5 class="text-dark" style="margin-top: 20px">Average: @Model.EnrollmentModel.FinalMark</h5>
+                @if (Model.EnrollmentModel.Status)
+                {
+                    <h5 class="text-success">Pass</h5>
+                }
+                else
+                {
+                    <h5 class="text-danger">Not pass</h5>
+                }
+                
+            
+        </div>
+    </div>
+</div>
+

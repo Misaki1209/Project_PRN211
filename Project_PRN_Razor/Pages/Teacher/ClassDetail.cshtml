@@ -5,42 +5,69 @@
 @{
     Layout = "Shared/_LayoutTeacher";
 }
-
+@if (Model.ViewData["Message"] != null)
+{
+    <h1>@Model.ViewData["Message"]</h1>
+}
+<h1></h1>
 <div class="row pt-4">
     <div class="col-6">
-        <h2 class="text-primary">Student List: @Model.SelectedClass.ClassName</h2>
+        <h2 class="text-primary">@Model.SelectedClass.ClassName - @Model.SelectedSemester.SemesterName - @Model.SelectedSubject.SubjectName</h2>
     </div>
     <div class="col-6">
     </div>
 </div>
+<div style="display: flex; margin-top: 40px;">
+    <div style="display: flex">
+        <form method="post" enctype="multipart/form-data" style="display: flex">
+            <div class="form-group">
+                <input name="selectedSemesterId" value="@Model.SelectedSemester.SemesterId" type="hidden"/>
+                <input name="selectedSubjectId" value="@Model.SelectedSubject.SubjectId" type="hidden"/>
+                <input name="selectedClassId" value="@Model.SelectedClass.ClassId" type="hidden"/>
+                <input type="file" class="form-control-file" id="fileInput" name="importFile">
+            </div>
+            <button type="submit" class="btn btn-primary" asp-page-handler="ImportMark" style="margin-left: 10px">Import</button>
+        </form>
+    </div>
 
+    <div>
+        <form method="post" style="margin-left: 10px">
+            <input name="selectedSemesterId" value="@Model.SelectedSemester.SemesterId" type="hidden"/>
+            <input name="selectedSubjectId" value="@Model.SelectedSubject.SubjectId" type="hidden"/>
+            <input name="selectedClassId" value="@Model.SelectedClass.ClassId" type="hidden"/>
+            <button type="submit" asp-page-handler="GetTemplate" class="btn btn-info">Download mark template</button>
+        </form>
+    </div>
+
+</div>
 <br/><br/>
 <table class="table table-bordered">
     <thead>
     <tr>
         <th scope="col">Student Code</th>
         <th scope="col">Student name</th>
-        <th scope="col">Semester</th>
-        <th scope="col">Subject</th>
+        @foreach (var name in @Model.MarkNameList)
+        {
+            <th scope="col">@name</th>
+        }
         <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var enrol in Model.EnrollmentList)
+    @for (var i = 0 ; i<Model.EnrollmentList.Count; i++)
     {
         <tr>
-            <th scope="row">@enrol.StudentCode</th>
-            <td>@enrol.StudentName</td>
-            <td>@Model.SelectedSemester.SemesterName</td>
-            <td>@Model.SelectedSubject.SubjectName</td>
+            <th scope="row">@Model.EnrollmentList[i].StudentCode</th>
+            <td>@Model.EnrollmentList[i].StudentName</td>
+            @foreach (var mark in @Model.MarkReportList[i])
+            {
+                <td>@mark.MarkValue</td>
+            }
             <td>
-                <a href="/Teacher/EnrollmentDetail/@enrol.EnrollmentId" class="btn btn-primary">Detail</a>
+
+                <a href="/Teacher/EnrollmentDetail/@Model.EnrollmentList[i].EnrollmentId" class="btn btn-primary">Detail</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
-
-<div style="margin-top: 30px;">
-    <a href="/Admin/SubjectPages/CreateSubject" class="btn btn-primary">Create new Subject</a>
-</div>

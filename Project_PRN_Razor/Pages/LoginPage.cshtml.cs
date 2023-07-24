@@ -21,9 +21,29 @@ public class LoginPage : PageModel
     }
     public LoginDto LoginDto { get; set; }
     public bool IsLoginFailed { get; set; } = false;
-    public void OnGet()
+    public IActionResult OnGet()
     {
-        
+        if (User.Identity.IsAuthenticated)
+        {
+            var userRole = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+            if (userRole == Common.Roles.Admin)
+            {
+                // if role is Admin, redirect to page Admin/Index
+                return RedirectToPage("/Admin/Index");
+            }
+            else if (userRole == Common.Roles.Teacher)
+            {
+                // if role is teacher, redirect to page Teacher/Index
+                return RedirectToPage("/Teacher/Index");
+            }
+            else if(userRole == Common.Roles.Student)
+            {
+                // if role is student, redirect to page Student/Index
+                return RedirectToPage("/Student/Index");
+            }
+        }
+
+        return Page();
     }
 
     public async Task<IActionResult> OnPost(LoginDto loginDto)
@@ -58,6 +78,12 @@ public class LoginPage : PageModel
         }
 
         IsLoginFailed = true;
+        return RedirectToPage("LoginPage");
+    }
+
+    public async Task<IActionResult> OnGetLogOut()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToPage("LoginPage");
     }
 }

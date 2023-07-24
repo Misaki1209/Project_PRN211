@@ -57,7 +57,9 @@ public class AccountRepository : IAccountRepository
     {
         try
         {
-            
+            account.Password = EncodePassword(account.Password);
+            _context.Accounts.Add(account);
+            _context.SaveChanges();
         }
         catch (Exception e)
         {
@@ -84,6 +86,24 @@ public class AccountRepository : IAccountRepository
         try
         {
             
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public void ChangePassword(int accountId, string newPass)
+    {
+        try
+        {
+            var account = _context.Accounts.FirstOrDefault(x => x.AccountId == accountId);
+            if (account == null)
+                throw new Exception("Not found");
+            account.Password = EncodePassword(newPass);
+            _context.Accounts.Update(account);
+            _context.SaveChanges();
         }
         catch (Exception e)
         {

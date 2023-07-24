@@ -1,0 +1,15 @@
+@page
+@model Project_PRN_Razor.Pages.Admin.StudentPages.AddStudentAccount
+
+@{
+    Layout = "Shared/_LayoutAdmin";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="AccountCreate.Email">Email</label>
+        <input asp-for="AccountCreate.Email" class="form-control" placeholder="email">
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 150px; margin-top: 30px;"> Create</button>
+</form>
